@@ -52,7 +52,7 @@ module.exports = (config, options = {}) => {
         })
 
         return `<li ${listItemAttrs}>${footnote.description} <a ${backLinkAttrs}>↩</a></li>`
-      })}
+      }).join('\n')}
     </ol>
   </footer>`
   })
