@@ -1,6 +1,11 @@
 # eleventy-plugin-footnotes
 
-This is an [11ty](https://www.11ty.dev) plugin to render [accessible footnotes](https://hugogiraudel.com/2020/11/24/accessible-footnotes-and-a-bit-of-react/) in an 11ty set up using Liquid. It *might* work with Nunjucks but has not been tested.
+This is an [11ty](https://www.11ty.dev) plugin to render [accessible footnotes](https://hugogiraudel.com/2020/11/24/accessible-footnotes-and-a-bit-of-react/) in an 11ty set up using Liquid.
+
+**Notes:**
+
+- It *might* work with Nunjucks but has not been tested. In theory, it should since it uses the universal 11ty methods to add shortcotes.
+- This plugin makes no styling consideration whatsoever. Please refer to [this article on accessible footnotes](https://www.sitepoint.com/accessible-footnotes-css/) for styling suggestions using CSS counters.
 
 ## Installation
 

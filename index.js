@@ -30,7 +30,7 @@ module.exports = (config, options = {}) => {
     }
   )
 
-  config.addLiquidShortcode('footnotes', function footnotes(page) {
+  config.addShortcode('footnotes', function footnotes(page) {
     const footnotes = Object.values(FOOTNOTE_MAP[page.inputPath] || {})
     const containerAttrs = attrs({ role: 'doc-endnotes', class: cl() })
     const titleAttrs = attrs({ id: titleId, class: cl('title') })
