@@ -1,0 +1,23 @@
+{
+  "name": "eleventy-plugin-footnotes",
+  "version": "0.1.0",
+  "description": "11ty plugin to render accessible footnotes",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HugoGiraudel/eleventy-plugin-footnotes.git"
+  },
+  "keywords": [
+    "eleventy",
+    "11ty",
+    "plugin",
+    "footnotes",
+    "accessibility"
+  ],
+  "author": "Hugo “Kitty” Giraudel",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/HugoGiraudel/eleventy-plugin-footnotes/issues"
+  },
+  "homepage": "https://github.com/HugoGiraudel/eleventy-plugin-footnotes#readme"
+}
