@@ -11,7 +11,7 @@ module.exports = (config, options = {}) => {
   // footnotes for the page; a global would be better, but that’s not a thing in
   // Liquid so we hack it with a filter
   config.addPairedShortcode(
-    'footnote',
+    'footnoteref',
     function footnote(content, id, description) {
       const key = this.page.inputPath
       const footnote = { id, description }
