@@ -5,7 +5,8 @@ This is an [11ty](https://www.11ty.dev) plugin to render [accessible footnotes](
 **Notes:**
 
 - It *might* work with Nunjucks but has not been tested. In theory, it should since it uses the universal 11ty methods to add shortcotes.
-- This plugin makes no styling consideration whatsoever. Please refer to [this article on accessible footnotes](https://www.sitepoint.com/accessible-footnotes-css/) for styling suggestions using CSS counters.
+- This plugin makes no styling consideration whatsoever. Please refer to [this article on accessible footnotes](https://www.sitepoint.com/accessible-footnotes-css/) or [this stylesheet](eleventy-plugin-footnotes) for styling suggestions using CSS counters.
+- Check out [my own site’s repository](https://github.com/HugoGiraudel/hugogiraudel.com) for a real life usage of this plugin.
 
 ## Installation
 
