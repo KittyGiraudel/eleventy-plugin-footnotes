@@ -4,7 +4,8 @@ module.exports = (config, options = {}) => {
   const baseClass = options.baseClass || 'Footnotes'
   const title = options.title || 'Footnotes'
   const titleId = options.titleId || 'footnotes-label'
-  const backLinkLabel = options.backLinkLabel || ((_, index) => `Back to reference ${index + 1}`)
+  const backLinkLabel =
+    options.backLinkLabel || ((_, index) => `Back to reference ${index + 1}`)
   const cl = getClass(baseClass)
 
   // Provide a tag to register a footnote, and a filter to access the registered
@@ -12,7 +13,7 @@ module.exports = (config, options = {}) => {
   // Liquid so we hack it with a filter
   config.addPairedShortcode(
     'footnoteref',
-    function footnote(content, id, description) {
+    function footnoteref(content, id, description) {
       const key = this.page.inputPath
       const footnote = { id, description }
 
@@ -35,24 +36,28 @@ module.exports = (config, options = {}) => {
     const titleAttrs = attrs({ id: titleId, class: cl('title') })
     const listAttrs = attrs({ class: cl('list') })
 
+    if (footnotes.length === 0) return ''
+
     return `
   <footer ${containerAttrs}>
     <h2 ${titleAttrs}>${title}</h2>
     <ol ${listAttrs}>
-      ${footnotes.map((footnote, index) => {
-        const listItemAttrs = attrs({
-          id: `${footnote.id}-note`,
-          class: cl('list-item'),
-        })
-        const backLinkAttrs = attrs({
-          class: cl('back-link'),
-          href: `#${footnote.id}-ref`,
-          'aria-label': backLinkLabel(footnote, index),
-          role: 'doc-backlink',
-        })
+      ${footnotes
+        .map((footnote, index) => {
+          const listItemAttrs = attrs({
+            id: `${footnote.id}-note`,
+            class: cl('list-item'),
+          })
+          const backLinkAttrs = attrs({
+            class: cl('back-link'),
+            href: `#${footnote.id}-ref`,
+            'aria-label': backLinkLabel(footnote, index),
+            role: 'doc-backlink',
+          })
 
-        return `<li ${listItemAttrs}>${footnote.description} <a ${backLinkAttrs}>↩</a></li>`
-      }).join('\n')}
+          return `<li ${listItemAttrs}>${footnote.description} <a ${backLinkAttrs}>↩</a></li>`
+        })
+        .join('\n')}
     </ol>
   </footer>`
   })
@@ -64,6 +69,6 @@ function attrs(object) {
   }, '')
 }
 
-function getClass (block) {
-  return (element) => block + (element ? '__' + element : '')
+function getClass(block) {
+  return element => block + (element ? '__' + element : '')
 }
