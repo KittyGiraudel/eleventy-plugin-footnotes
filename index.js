@@ -38,27 +38,25 @@ module.exports = (config, options = {}) => {
 
     if (footnotes.length === 0) return ''
 
+    function renderFootnote(footnote, index) {
+      const listItemAttrs = attrs({
+        id: `${footnote.id}-note`,
+        class: cl('list-item'),
+      })
+      const backLinkAttrs = attrs({
+        class: cl('back-link'),
+        href: `#${footnote.id}-ref`,
+        'aria-label': backLinkLabel(footnote, index),
+        role: 'doc-backlink',
+      })
+
+      return `<li ${listItemAttrs}>${footnote.description} <a ${backLinkAttrs}>↩</a></li>`
+    }
+
     return `
   <footer ${containerAttrs}>
     <h2 ${titleAttrs}>${title}</h2>
-    <ol ${listAttrs}>
-      ${footnotes
-        .map((footnote, index) => {
-          const listItemAttrs = attrs({
-            id: `${footnote.id}-note`,
-            class: cl('list-item'),
-          })
-          const backLinkAttrs = attrs({
-            class: cl('back-link'),
-            href: `#${footnote.id}-ref`,
-            'aria-label': backLinkLabel(footnote, index),
-            role: 'doc-backlink',
-          })
-
-          return `<li ${listItemAttrs}>${footnote.description} <a ${backLinkAttrs}>↩</a></li>`
-        })
-        .join('\n')}
-    </ol>
+    <ol ${listAttrs}>${footnotes.map(renderFootnote).join('\n')}</ol>
   </footer>`
   })
 }
