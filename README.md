@@ -42,6 +42,15 @@ Something about {% footnoteref "css-counters" "CSS counters are, in essence, var
 what they are.
 ```
 
+Note that footnotes accept HTML, so you can inject any markup you want in there. If you would like to use Markdown (or any other filters of your choice), you could extract the footnote in a variable before: 
+
+```html
+{% assign css_counters_footnote = "[CSS counters](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Lists_and_Counters/Using_CSS_counters) are, in essence, variables maintained by CSS whose values may be incremented by CSS rules to track how many times they’re used." | markdown | replace: "<p>", "" | replace: "</p>", "" %}
+
+Something about {% footnoteref "css-counters" css_counters_footnote %}CSS counters{% endfootnoteref %} that deserves a footnote explaining
+what they are.
+```
+
 ## Customisation
 
 - `title`: The `title` option is the content of the title of the footnotes section. This title *can* be [visually hidden](https://hugogiraudel.com/2016/10/13/css-hide-and-seek/) if desired but it should not be removed or emptied.
