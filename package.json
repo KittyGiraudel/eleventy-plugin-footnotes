@@ -3,6 +3,9 @@
   "version": "0.6.0",
   "description": "11ty plugin to render accessible footnotes",
   "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/HugoGiraudel/eleventy-plugin-footnotes.git"
@@ -19,5 +22,8 @@
   "bugs": {
     "url": "https://github.com/HugoGiraudel/eleventy-plugin-footnotes/issues"
   },
-  "homepage": "https://github.com/HugoGiraudel/eleventy-plugin-footnotes#readme"
+  "homepage": "https://github.com/HugoGiraudel/eleventy-plugin-footnotes#readme",
+  "devDependencies": {
+    "jest": "^26.6.3"
+  }
 }

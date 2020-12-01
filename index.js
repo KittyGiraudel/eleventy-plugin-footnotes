@@ -79,6 +79,9 @@ module.exports = (config, options = {}) => {
   // API exposed by the plugin
   config.addPairedShortcode('footnoteref', footnoteref)
   config.addShortcode('footnotes', footnotes)
+
+  // Returned for testing purposes
+  return { footnoteref, footnotes }
 }
 
 // Small utility to convert an object into a string of HTML attributes
