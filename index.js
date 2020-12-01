@@ -29,6 +29,14 @@ module.exports = (config, options = {}) => {
     const key = this.page.inputPath
     const footnote = { id, description }
 
+    if (!description) {
+      console.log(
+        `[eleventy-plugin-footnotes] Warning: Footnote reference with id ‘${id}’ has no given description (missing or falsy second argument); footnote omitted entirely.\n`
+      )
+
+      return content
+    }
+
     // Register the footnote in the map
     FOOTNOTE_MAP[key] = FOOTNOTE_MAP[key] || {}
     FOOTNOTE_MAP[key][id] = footnote

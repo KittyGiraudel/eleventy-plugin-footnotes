@@ -8,6 +8,7 @@ This is an [11ty](https://www.11ty.dev) plugin to render [accessible footnotes](
 - [Customisation](#customisation)
 - [FAQ](#faq)
   - [Why are footnotes not rendered?](#why-are-footnotes-not-rendered)
+  - [Why is a specific footnote not rendered?](#why-is-a-specific-footnote-not-rendered)
   - [Why are numbers not displayed?](#why-are-numbers-not-displayed)
 
 **Notes:**
@@ -58,6 +59,8 @@ Something about {% footnoteref "css-counters" css_counters_footnote %}CSS counte
 what they are.
 ```
 
+Note that if the footnote content (2nd argument) is omitted entirely (willingly or by mistake), the footnote reference will not be rendered as an anchor at all since there is nothing to link to.
+
 ## Customisation
 
 - `title`: The `title` option is the content of the title of the footnotes section. This title *can* be [visually hidden](https://hugogiraudel.com/2016/10/13/css-hide-and-seek/) if desired but it should not be removed or emptied.
@@ -87,6 +90,16 @@ Make sure you have included the `footnotes` shortcode somewhere in your page, us
 
 ```html
 {% footnotes %}
+```
+
+### Why is a specific footnote not rendered?
+
+If a reference does not pass the footnote content as second argument (or passes a falsy value), the footnote will be discarded entirely and the reference will not be wrapped with an anchor tag.
+
+Additionally, a log like this one will be output during compilation:
+
+```
+[eleventy-plugin-footnotes] Warning: Footnote reference with id ‘css-counters’ has no given description (missing or falsy second argument); footnote omitted entirely.
 ```
 
 ### Why are numbers not displayed?

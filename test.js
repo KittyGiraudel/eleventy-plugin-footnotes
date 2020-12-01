@@ -23,6 +23,15 @@ describe('The `footnoteref` paired shortcode', () => {
     expect(anchor.getAttribute('aria-describedby')).toBe('footnotes-label')
     expect(anchor.textContent).toBe(content)
   })
+
+  it('should not render an anchor if description is omitted', () => {
+    const root = document.createElement('div')
+    root.innerHTML = footnoteref.call(context, content, id)
+
+    const anchor = root.querySelector('a')
+
+    expect(anchor).toEqual(null)
+  })
 })
 
 describe('The `footnotes` shortcode', () => {
