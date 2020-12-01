@@ -1,25 +1,36 @@
 # eleventy-plugin-footnotes
 
-This is an [11ty](https://www.11ty.dev) plugin to render [accessible footnotes](https://hugogiraudel.com/2020/11/24/accessible-footnotes-and-a-bit-of-react/) in an 11ty set up using Liquid.
+This is an [11ty](https://www.11ty.dev) plugin to render [accessible footnotes](https://hugogiraudel.com/2020/11/24/accessible-footnotes-and-a-bit-of-react/) using Liquid.
+
+- [Installation](#installation)
+- [Usage](#usage)
+- [Example](#example)
+- [Customisation](#customisation)
+- [FAQ](#faq)
+  - [Why are footnotes not rendered?](#why-are-footnotes-not-rendered)
+  - [Why are numbers not displayed?](#why-are-numbers-not-displayed)
 
 **Notes:**
 
 - It *might* work with Nunjucks but has not been tested. In theory, it should since it uses the universal 11ty methods to add shortcotes.
-- This plugin makes no styling consideration whatsoever. Please refer to [this article on accessible footnotes](https://www.sitepoint.com/accessible-footnotes-css/) or [this stylesheet](eleventy-plugin-footnotes) for styling suggestions using CSS counters.
+- This plugin makes no styling consideration whatsoever. Refer to the [FAQ](#why-are-footnotes-not-rendered) for more information about styling.
 - Check out [my own site’s repository](https://github.com/HugoGiraudel/hugogiraudel.com) for a real life usage of this plugin.
 
 ## Installation
+
+Install the dependency from npm:
 
 ```sh
 npm install eleventy-plugin-footnotes
 ```
 
+Update your 11ty configuration:
+
 ```js
 const footnotes = require('eleventy-plugin-footnotes')
 
 module.exports = eleventyConfig => {
-  const options = {}
-  eleventyConfig.addPlugin(footnotes, options)
+  eleventyConfig.addPlugin(footnotes, { /* … */ })
 }
 ```
 
@@ -29,11 +40,7 @@ The plugin can be somewhat configured. Refer to the [customisation](#customisati
 
 1. Wrap a text section with the `footnoteref` Liquid tag while making sure to pass it an `id` as first argument, and the footnote content as a second argument. See [example](#example).
 
-2. Render the footnotes section at the bottom of the article layout (or where you feel like) using the `footnotes` shortcode.
-
-```liquid
-{% footnotes %}
-```
+2. Render the footnotes section at the bottom of the article layout (or where you feel like) using the `{% footnotes %}` shortcode.
 
 ## Example
 
@@ -61,7 +68,7 @@ what they are.
 
 - `baseClass`: The `baseClass` option is used as the base class for all the other BEM classes (`<base>__ref`, `<base>`, `<base>__title`, `<base>__list`, `<base>__list-item`, `<base>__back-link`).
 
-This is the default options:
+These are the default options:
 
 ```js
 {
@@ -70,3 +77,31 @@ This is the default options:
   titleId: 'footnotes-label',
   backLinkLabel: (footnote, index) => 'Back to reference ' + index + 1
 }
+```
+
+## FAQ
+
+### Why are footnotes not rendered?
+
+Make sure you have included the `footnotes` shortcode somewhere in your page, usually at the bottom of your content section.
+
+```html
+{% footnotes %}
+```
+
+### Why are numbers not displayed?
+
+Unlike other footnoting systems, this one uses properly labeled anchors as references instead of numbers (e.g. `[1]`). This is better for accessibility since links can be tabbed through or listed devoid of their surrounding context, and therefore should be self-explanatory.
+
+To still render a sup number after every reference, you can use CSS counters. Initialise a counter on your content container (or `body`), and increment it at every reference. Use a pseudo-element to render the number.
+
+```css
+body { counter-reset: footnotes }
+
+[role="doc-noteref"]::after {
+  counter-increment: footnotes;
+  content: '[' counter(footnotes) ']'
+}
+```
+
+Refer to [this article on accessible footnotes](https://www.sitepoint.com/accessible-footnotes-css/) or [this stylesheet](https://github.com/HugoGiraudel/hugogiraudel.com/blob/master/assets/css/components/_footnotes.scss) for a more comprehensive styling solution.
