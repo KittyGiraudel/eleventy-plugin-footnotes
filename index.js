@@ -43,9 +43,9 @@ module.exports = (config, options = {}) => {
     })}>${content}</a>`
   }
 
-  // @param {object} page - 11ty template page object
-  function footnotes(page) {
-    const footnotes = Object.values(FOOTNOTE_MAP[page.inputPath] || {})
+  function footnotes() {
+    const key = this.page.inputPath
+    const footnotes = Object.values(FOOTNOTE_MAP[key] || {})
 
     // If there are no footnotes for the given page, render nothing
     if (footnotes.length === 0) return ''

@@ -40,11 +40,11 @@ describe('The `footnotes` shortcode', () => {
   })
 
   beforeEach(() => {
-    root.innerHTML = footnotes(context.page)
+    root.innerHTML = footnotes.call(context)
   })
 
   it('should not render anything if no footnotes', () => {
-    root.innerHTML = footnotes({ inputPath: 'foobar' })
+    root.innerHTML = footnotes.call({ page: { inputPath: 'foobar' } })
     expect(root.textContent).toBe('')
   })
 
@@ -96,7 +96,7 @@ describe('The `eleventy-plugin-footnotes` plugin', () => {
     const { footnoteref, footnotes } = plugin(config, { titleId: 'foobar' })
     const root = document.createElement('div')
     root.innerHTML = footnoteref.call(context, 'foo', 'foo-id', 'foo-footnote')
-    root.innerHTML += footnotes(context.page)
+    root.innerHTML += footnotes.call(context)
     const anchor = root.querySelector('a')
     const title = root.querySelector('h2')
 
@@ -107,7 +107,7 @@ describe('The `eleventy-plugin-footnotes` plugin', () => {
   it('should allow customising the title', () => {
     const { footnotes } = plugin(config, { title: 'this is the title' })
     const root = document.createElement('div')
-    root.innerHTML = footnotes(context.page)
+    root.innerHTML = footnotes.call(context)
     const title = root.querySelector('h2')
 
     expect(title.textContent).toBe('this is the title')
@@ -117,7 +117,7 @@ describe('The `eleventy-plugin-footnotes` plugin', () => {
     const { footnotes, footnoteref } = plugin(config, { baseClass: 'Kitty' })
     const root = document.createElement('div')
     root.innerHTML = footnoteref.call(context, 'foo', 'foo-id', 'foo-footnote')
-    root.innerHTML += footnotes(context.page)
+    root.innerHTML += footnotes.call(context)
 
     expect(root.querySelector('a').getAttribute('class')).toBe('Kitty__ref')
     expect(root.querySelector('footer').getAttribute('class')).toBe('Kitty')
@@ -130,7 +130,7 @@ describe('The `eleventy-plugin-footnotes` plugin', () => {
   it('should allow customising the back link label', () => {
     const { footnotes } = plugin(config, { backLinkLabel: (_, i) => 'Go to ' + (i + 1) })
     const root = document.createElement('div')
-    root.innerHTML = footnotes(context.page)
+    root.innerHTML = footnotes.call(context)
 
     expect(root.querySelector('a').getAttribute('aria-label')).toBe('Go to 1')
 

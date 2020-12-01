@@ -29,10 +29,10 @@ The plugin can be somewhat configured. Refer to the [customisation](#customisati
 
 1. Wrap a text section with the `footnoteref` Liquid tag while making sure to pass it an `id` as first argument, and the footnote content as a second argument. See [example](#example).
 
-2. Render the footnotes section at the bottom of the article layout (or where you feel like) using the `footnotes` shortcode while making sure to pass it the `page` object.
+2. Render the footnotes section at the bottom of the article layout (or where you feel like) using the `footnotes` shortcode.
 
 ```liquid
-{% footnotes page %}
+{% footnotes %}
 ```
 
 ## Example
