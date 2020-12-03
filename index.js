@@ -66,6 +66,7 @@ module.exports = (config, options = {}) => {
       const listItemAttrs = attrs({
         id: `${footnote.id}-note`,
         class: cl('list-item'),
+        role: 'doc-endnote',
       })
       const backLinkAttrs = attrs({
         class: cl('back-link'),

@@ -37,7 +37,7 @@ describe('The `footnoteref` paired shortcode', () => {
 describe('The `footnotes` shortcode', () => {
   const { footnoteref, footnotes } = plugin(config, {
     titleId: 'footnotes-title-id',
-    title: 'Footnote references'
+    title: 'Footnote references',
   })
   const context = { page: { inputPath: 'tests/footnotes' } }
   const root = document.createElement('div')
@@ -84,6 +84,7 @@ describe('The `footnotes` shortcode', () => {
     expect(listItem).not.toBeUndefined()
     expect(listItem.getAttribute('class')).toBe('Footnotes__list-item')
     expect(listItem.getAttribute('id')).toBe('foo-id-note')
+    expect(listItem.getAttribute('role')).toBe('doc-endnote')
     expect(listItem.textContent).toBe('foo-footnote ↩')
   })
 
@@ -132,16 +133,21 @@ describe('The `eleventy-plugin-footnotes` plugin', () => {
     expect(root.querySelector('footer').getAttribute('class')).toBe('Kitty')
     expect(root.querySelector('h2').getAttribute('class')).toBe('Kitty__title')
     expect(root.querySelector('ol').getAttribute('class')).toBe('Kitty__list')
-    expect(root.querySelector('li').getAttribute('class')).toBe('Kitty__list-item')
-    expect(root.querySelector('li a').getAttribute('class')).toBe('Kitty__back-link')
+    expect(root.querySelector('li').getAttribute('class')).toBe(
+      'Kitty__list-item'
+    )
+    expect(root.querySelector('li a').getAttribute('class')).toBe(
+      'Kitty__back-link'
+    )
   })
 
   it('should allow customising the back link label', () => {
-    const { footnotes } = plugin(config, { backLinkLabel: (_, i) => 'Go to ' + (i + 1) })
+    const { footnotes } = plugin(config, {
+      backLinkLabel: (_, i) => 'Go to ' + (i + 1),
+    })
     const root = document.createElement('div')
     root.innerHTML = footnotes.call(context)
 
     expect(root.querySelector('a').getAttribute('aria-label')).toBe('Go to 1')
-
   })
 })
