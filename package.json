@@ -12,6 +12,7 @@
   },
   "keywords": [
     "eleventy",
+    "eleventy-plugin",
     "11ty",
     "plugin",
     "footnotes",
