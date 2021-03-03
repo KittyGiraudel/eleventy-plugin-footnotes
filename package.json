@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/HugoGiraudel/eleventy-plugin-footnotes.git"
+    "url": "git+https://github.com/KittyGiraudel/eleventy-plugin-footnotes.git"
   },
   "keywords": [
     "eleventy",
@@ -18,12 +18,12 @@
     "footnotes",
     "accessibility"
   ],
-  "author": "Hugo “Kitty” Giraudel",
+  "author": "Kitty Giraudel",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/HugoGiraudel/eleventy-plugin-footnotes/issues"
+    "url": "https://github.com/KittyGiraudel/eleventy-plugin-footnotes/issues"
   },
-  "homepage": "https://github.com/HugoGiraudel/eleventy-plugin-footnotes#readme",
+  "homepage": "https://github.com/KittyGiraudel/eleventy-plugin-footnotes#readme",
   "devDependencies": {
     "jest": "^26.6.3"
   }
