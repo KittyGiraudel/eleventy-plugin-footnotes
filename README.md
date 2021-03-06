@@ -1,6 +1,6 @@
 # eleventy-plugin-footnotes
 
-This is an [11ty](https://www.11ty.dev) plugin to render [accessible footnotes](https://hugogiraudel.com/2020/11/24/accessible-footnotes-and-a-bit-of-react/) using Liquid.
+This is an [11ty](https://www.11ty.dev) plugin to render [accessible footnotes](https://kittygiraudel.com/2020/11/24/accessible-footnotes-and-a-bit-of-react/) using Liquid.
 
 - [Installation](#installation)
 - [Usage](#usage)
@@ -15,7 +15,7 @@ This is an [11ty](https://www.11ty.dev) plugin to render [accessible footnotes](
 
 - It *might* work with Nunjucks but has not been tested. In theory, it should since it uses the universal 11ty methods to add shortcotes.
 - This plugin makes no styling consideration whatsoever. Refer to the [FAQ](#why-are-footnotes-not-rendered) for more information about styling.
-- Check out [my own site’s repository](https://github.com/HugoGiraudel/hugogiraudel.com) for a real life usage of this plugin.
+- Check out [my own site’s repository](https://github.com/KittyGiraudel/site) for a real life usage of this plugin.
 
 ## Installation
 
@@ -63,7 +63,7 @@ Note that if the footnote content (2nd argument) is omitted entirely (willingly 
 
 ## Customisation
 
-- `title`: The `title` option is the content of the title of the footnotes section. This title *can* be [visually hidden](https://hugogiraudel.com/2016/10/13/css-hide-and-seek/) if desired but it should not be removed or emptied.
+- `title`: The `title` option is the content of the title of the footnotes section. This title *can* be [visually hidden](https://kittygiraudel.com/2016/10/13/css-hide-and-seek/) if desired but it should not be removed or emptied.
 
 - `titleId`: The `titleId` option is the `id` set to the title of the footnotes section. It is also referred in the `aria-describedby` attribute of every footnote reference.
 
@@ -117,4 +117,4 @@ body { counter-reset: footnotes }
 }
 ```
 
-Refer to [this article on accessible footnotes](https://www.sitepoint.com/accessible-footnotes-css/) or [this stylesheet](https://github.com/HugoGiraudel/hugogiraudel.com/blob/master/assets/css/components/_footnotes.scss) for a more comprehensive styling solution.
+Refer to [this article on accessible footnotes](https://www.sitepoint.com/accessible-footnotes-css/) or [this stylesheet](https://github.com/KittyGiraudel/site/tree/main/assets/css/components/footnotes.css) for a more comprehensive styling solution.
