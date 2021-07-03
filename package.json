@@ -26,5 +26,8 @@
   "homepage": "https://github.com/KittyGiraudel/eleventy-plugin-footnotes#readme",
   "devDependencies": {
     "jest": "^27.0.6"
+  },
+  "jest": {
+    "testEnvironment": "jsdom"
   }
 }
