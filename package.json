@@ -4,7 +4,8 @@
   "description": "11ty plugin to render accessible footnotes",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "repository": {
     "type": "git",
@@ -29,5 +30,8 @@
   },
   "jest": {
     "testEnvironment": "jsdom"
+  },
+  "dependencies": {
+    "clsx": "^1.1.1"
   }
 }

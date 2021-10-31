@@ -1,3 +1,5 @@
+const clsx = require('clsx');
+
 // Internal map storing the footnotes for every page. Keys are page file paths
 // mapped to objects holding footnotes.
 // E.g.
@@ -8,23 +10,30 @@
 // }
 const FOOTNOTE_MAP = {}
 
-// @param {object} config - 11ty config
-// @param {object} [options] - Plugin options
-// @param {string} [baseClass] - Base CSS class for BEM
-// @param {string} [title] - Footnotes section title
-// @param {string} [titleId] - Footnotes section title ID
-// @param {func} [backLinkLabel] - Footnote back link label generator
+/** 
+ * @param {object} config - 11ty config
+ * @param {object} [options] - Plugin options
+ * @param {string} [baseClass] - Base CSS class for BEM
+ * @param {object} [classes] - custom class names for each element
+ * @param {string} [title] - Footnotes section title
+ * @param {string} [titleId] - Footnotes section title ID
+ * @param {func} [backLinkLabel] - Footnote back link label generator
+*/
 module.exports = (config, options = {}) => {
-  const baseClass = options.baseClass || 'Footnotes'
-  const title = options.title || 'Footnotes'
-  const titleId = options.titleId || 'footnotes-label'
-  const backLinkLabel =
-    options.backLinkLabel || ((_, index) => `Back to reference ${index + 1}`)
-  const cl = getClass(baseClass)
+  const { 
+    baseClass = 'Footnotes',
+    title = 'Footnotes',
+    titleId = 'footnotes-label',
+    backLinkLabel = ((_, index) => `Back to reference ${index + 1}`),
+    classes = {}
+  } = options;
+  const bemClass = getBemClass(baseClass)
 
-  // @param {string} content - Footnote reference content
-  // @param {string} id - Footnote id
-  // @param {string} description - Actual footnote content
+  /** 
+   * @param {string} content - Footnote reference content
+   * @param {string} id - Footnote id
+   * @param {string} description - Actual footnote content
+  */ 
   function footnoteref(content, id, description) {
     const key = this.page.inputPath
     const footnote = { id, description }
@@ -43,7 +52,7 @@ module.exports = (config, options = {}) => {
 
     // Return an anchor tag with all the necessary attributes
     return `<a ${attrs({
-      class: baseClass + '__ref',
+      class: clsx(`${baseClass}__ref`, classes.ref),
       href: `#${id}-note`,
       id: `${id}-ref`,
       'aria-describedby': titleId,
@@ -51,6 +60,7 @@ module.exports = (config, options = {}) => {
     })}>${content}</a>`
   }
 
+  /** `footnotes` shortcode that renders the footnotes references wherever it's invoked. */
   function footnotes() {
     const key = this.page.inputPath
     const footnotes = Object.values(FOOTNOTE_MAP[key] || {})
@@ -58,18 +68,18 @@ module.exports = (config, options = {}) => {
     // If there are no footnotes for the given page, render nothing
     if (footnotes.length === 0) return ''
 
-    const containerAttrs = attrs({ role: 'doc-endnotes', class: cl() })
-    const titleAttrs = attrs({ id: titleId, class: cl('title') })
-    const listAttrs = attrs({ class: cl('list') })
+    const containerAttrs = attrs({ role: 'doc-endnotes', class: clsx(bemClass(), classes.container) })
+    const titleAttrs = attrs({ id: titleId, class: clsx(bemClass('title'), classes.title) })
+    const listAttrs = attrs({ class: clsx(bemClass('list'), classes.list) })
 
     function renderFootnote(footnote, index) {
       const listItemAttrs = attrs({
         id: `${footnote.id}-note`,
-        class: cl('list-item'),
+        class: clsx(bemClass('list-item'), classes.listItem),
         role: 'doc-endnote',
       })
       const backLinkAttrs = attrs({
-        class: cl('back-link'),
+        class: clsx(bemClass('back-link'), classes.backLink),
         href: `#${footnote.id}-ref`,
         'aria-label': backLinkLabel(footnote, index),
         role: 'doc-backlink',
@@ -93,14 +103,14 @@ module.exports = (config, options = {}) => {
   return { footnoteref, footnotes }
 }
 
-// Small utility to convert an object into a string of HTML attributes
+/** Small utility to convert an object into a string of HTML attributes */
 function attrs(object) {
   return Object.keys(object).reduce((acc, key, index) => {
     return [acc, `${key}="${object[key]}"`].filter(Boolean).join(' ')
   }, '')
 }
 
-// Small utility to append element suffix to BEM block base class
-function getClass(block) {
+/** Small utility to append element suffix to BEM block base class */
+function getBemClass(block) {
   return element => block + (element ? '__' + element : '')
 }
