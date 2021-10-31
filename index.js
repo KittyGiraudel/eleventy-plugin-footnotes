@@ -13,6 +13,7 @@ const FOOTNOTE_MAP = {}
 // @param {object} config - 11ty config
 // @param {object} [options] - Plugin options
 // @param {string} [baseClass] - Base CSS class for BEM
+// @param {object} [classes] - custom class names for each element
 // @param {string} [title] - Footnotes section title
 // @param {string} [titleId] - Footnotes section title ID
 // @param {func} [backLinkLabel] - Footnote back link label generator
