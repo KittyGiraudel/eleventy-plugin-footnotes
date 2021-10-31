@@ -10,13 +10,15 @@ const clsx = require('clsx');
 // }
 const FOOTNOTE_MAP = {}
 
-// @param {object} config - 11ty config
-// @param {object} [options] - Plugin options
-// @param {string} [baseClass] - Base CSS class for BEM
-// @param {object} [classes] - custom class names for each element
-// @param {string} [title] - Footnotes section title
-// @param {string} [titleId] - Footnotes section title ID
-// @param {func} [backLinkLabel] - Footnote back link label generator
+/** 
+ * @param {object} config - 11ty config
+ * @param {object} [options] - Plugin options
+ * @param {string} [baseClass] - Base CSS class for BEM
+ * @param {object} [classes] - custom class names for each element
+ * @param {string} [title] - Footnotes section title
+ * @param {string} [titleId] - Footnotes section title ID
+ * @param {func} [backLinkLabel] - Footnote back link label generator
+*/
 module.exports = (config, options = {}) => {
   const { 
     baseClass = 'Footnotes',
@@ -27,9 +29,11 @@ module.exports = (config, options = {}) => {
   } = options;
   const bemClass = getBemClass(baseClass)
 
-  // @param {string} content - Footnote reference content
-  // @param {string} id - Footnote id
-  // @param {string} description - Actual footnote content
+  /** 
+   * @param {string} content - Footnote reference content
+   * @param {string} id - Footnote id
+   * @param {string} description - Actual footnote content
+  */ 
   function footnoteref(content, id, description) {
     const key = this.page.inputPath
     const footnote = { id, description }
@@ -56,6 +60,7 @@ module.exports = (config, options = {}) => {
     })}>${content}</a>`
   }
 
+  /** `footnotes` shortcode that renders the footnotes references wherever it's invoked. */
   function footnotes() {
     const key = this.page.inputPath
     const footnotes = Object.values(FOOTNOTE_MAP[key] || {})
@@ -98,14 +103,14 @@ module.exports = (config, options = {}) => {
   return { footnoteref, footnotes }
 }
 
-// Small utility to convert an object into a string of HTML attributes
+/** Small utility to convert an object into a string of HTML attributes */
 function attrs(object) {
   return Object.keys(object).reduce((acc, key, index) => {
     return [acc, `${key}="${object[key]}"`].filter(Boolean).join(' ')
   }, '')
 }
 
-// Small utility to append element suffix to BEM block base class
+/** Small utility to append element suffix to BEM block base class */
 function getBemClass(block) {
   return element => block + (element ? '__' + element : '')
 }
