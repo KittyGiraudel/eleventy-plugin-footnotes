@@ -17,12 +17,13 @@ const FOOTNOTE_MAP = {}
 // @param {string} [titleId] - Footnotes section title ID
 // @param {func} [backLinkLabel] - Footnote back link label generator
 module.exports = (config, options = {}) => {
-  const baseClass = options.baseClass || 'Footnotes'
-  const title = options.title || 'Footnotes'
-  const titleId = options.titleId || 'footnotes-label'
-  const classes = options.classes || {};
-  const backLinkLabel =
-    options.backLinkLabel || ((_, index) => `Back to reference ${index + 1}`)
+  const { 
+    baseClass = 'Footnotes',
+    title = 'Footnotes',
+    titleId = 'footnotes-label',
+    backLinkLabel = ((_, index) => `Back to reference ${index + 1}`),
+    classes = {}
+  } = options;
   const bemClass = getBemClass(baseClass)
 
   // @param {string} content - Footnote reference content
