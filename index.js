@@ -43,7 +43,7 @@ module.exports = (config, options = {}) => {
 
     // Return an anchor tag with all the necessary attributes
     return `<a ${attrs({
-      class: baseClass + '__ref',
+      class: `${baseClass}__ref`,
       href: `#${id}-note`,
       id: `${id}-ref`,
       'aria-describedby': titleId,
