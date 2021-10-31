@@ -30,5 +30,8 @@
   },
   "jest": {
     "testEnvironment": "jsdom"
+  },
+  "dependencies": {
+    "clsx": "^1.1.1"
   }
 }
