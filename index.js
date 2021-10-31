@@ -1,3 +1,5 @@
+const clsx = require('clsx');
+
 // Internal map storing the footnotes for every page. Keys are page file paths
 // mapped to objects holding footnotes.
 // E.g.
@@ -18,6 +20,7 @@ module.exports = (config, options = {}) => {
   const baseClass = options.baseClass || 'Footnotes'
   const title = options.title || 'Footnotes'
   const titleId = options.titleId || 'footnotes-label'
+  const classes = options.classes || {};
   const backLinkLabel =
     options.backLinkLabel || ((_, index) => `Back to reference ${index + 1}`)
   const bemClass = getBemClass(baseClass)
@@ -43,7 +46,7 @@ module.exports = (config, options = {}) => {
 
     // Return an anchor tag with all the necessary attributes
     return `<a ${attrs({
-      class: `${baseClass}__ref`,
+      class: clsx(`${baseClass}__ref`, classes.ref),
       href: `#${id}-note`,
       id: `${id}-ref`,
       'aria-describedby': titleId,
@@ -58,18 +61,18 @@ module.exports = (config, options = {}) => {
     // If there are no footnotes for the given page, render nothing
     if (footnotes.length === 0) return ''
 
-    const containerAttrs = attrs({ role: 'doc-endnotes', class: bemClass() })
-    const titleAttrs = attrs({ id: titleId, class: bemClass('title') })
-    const listAttrs = attrs({ class: bemClass('list') })
+    const containerAttrs = attrs({ role: 'doc-endnotes', class: clsx(bemClass(), classes.container) })
+    const titleAttrs = attrs({ id: titleId, class: clsx(bemClass('title'), classes.title) })
+    const listAttrs = attrs({ class: clsx(bemClass('list'), classes.list) })
 
     function renderFootnote(footnote, index) {
       const listItemAttrs = attrs({
         id: `${footnote.id}-note`,
-        class: bemClass('list-item'),
+        class: clsx(bemClass('list-item'), classes.listItem),
         role: 'doc-endnote',
       })
       const backLinkAttrs = attrs({
-        class: bemClass('back-link'),
+        class: clsx(bemClass('back-link'), classes.backLink),
         href: `#${footnote.id}-ref`,
         'aria-label': backLinkLabel(footnote, index),
         role: 'doc-backlink',

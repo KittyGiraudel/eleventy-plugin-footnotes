@@ -150,4 +150,53 @@ describe('The `eleventy-plugin-footnotes` plugin', () => {
 
     expect(root.querySelector('a').getAttribute('aria-label')).toBe('Go to 1')
   })
+
+  it('should allow customizing class names for individual elements', () => {
+    const { footnotes, footnoteref } = plugin(config, { 
+      baseClass: 'Kitty',
+      classes: {
+        container: 'footer',
+        title: 'title',
+        ref: 'ref',
+        list: 'list',
+        listItem: 'item',
+        backLink: 'back-link',
+      }
+    })
+    const root = document.createElement('div')
+    root.innerHTML = footnoteref.call(context, 'foo', 'foo-id', 'foo-footnote')
+    root.innerHTML += footnotes.call(context)
+
+    // Use classlists in case we change the internal order of class names in the future
+    const containerClasses = root.querySelector('footer').classList
+    const titleClasses = root.querySelector('h2').classList
+    const refClasses = root.querySelector('a').classList
+    const listClasses = root.querySelector('ol').classList
+    const itemClasses = root.querySelector('li').classList
+    const backLinkClasses = root.querySelector('li a').classList
+
+    expect(containerClasses.contains('Kitty')).toBe(true)
+    expect(containerClasses.contains('footer')).toBe(true)
+    expect(containerClasses.length).toBe(2)
+    
+    expect(titleClasses.contains('Kitty__title')).toBe(true)
+    expect(titleClasses.contains('title')).toBe(true)
+    expect(titleClasses.length).toBe(2)
+    
+    expect(refClasses.contains('Kitty__ref')).toBe(true)
+    expect(refClasses.contains('ref')).toBe(true)
+    expect(refClasses.length).toBe(2)
+    
+    expect(listClasses.contains('Kitty__list')).toBe(true)
+    expect(listClasses.contains('list')).toBe(true)
+    expect(listClasses.length).toBe(2)
+    
+    expect(itemClasses.contains('Kitty__list-item')).toBe(true)
+    expect(itemClasses.contains('item')).toBe(true)
+    expect(itemClasses.length).toBe(2)
+    
+    expect(backLinkClasses.contains('Kitty__back-link')).toBe(true)
+    expect(backLinkClasses.contains('back-link')).toBe(true)
+    expect(backLinkClasses.length).toBe(2)
+  })
 })

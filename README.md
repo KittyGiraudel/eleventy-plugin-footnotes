@@ -71,6 +71,14 @@ Note that if the footnote content (2nd argument) is omitted entirely (willingly 
 
 - `baseClass`: The `baseClass` option is used as the base class for all the other BEM classes (`<base>__ref`, `<base>`, `<base>__title`, `<base>__list`, `<base>__list-item`, `<base>__back-link`).
 
+- `classes`: Custom class names for each of the rendered elements, in case you don't use BEM or if you already have utility classes that you want to apply. This option maps each element's name to its custom class string. The following keys can be used in this map:
+  - `container`: class name for the footnotes footer that renders the title and all of the footnotes.
+  - `title`: class name for the title that appears above the footnotes section.
+  - `ref`: class name for the anchor that takes you to the footnote.
+  - `list`: class name for the list that renders the footnotes themselves.
+  - `listItem`: class name for the list items.
+  - `backLink`: class name for the back-link that appears at the end of each footnote.
+
 These are the default options:
 
 ```js
@@ -78,7 +86,8 @@ These are the default options:
   baseClass: 'Footnotes',
   title: 'Footnotes',
   titleId: 'footnotes-label',
-  backLinkLabel: (footnote, index) => 'Back to reference ' + index + 1
+  backLinkLabel: (footnote, index) => 'Back to reference ' + index + 1,
+  classes: {},
 }
 ```
 
