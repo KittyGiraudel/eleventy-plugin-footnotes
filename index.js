@@ -20,7 +20,7 @@ module.exports = (config, options = {}) => {
   const titleId = options.titleId || 'footnotes-label'
   const backLinkLabel =
     options.backLinkLabel || ((_, index) => `Back to reference ${index + 1}`)
-  const cl = getClass(baseClass)
+  const bemClass = getBemClass(baseClass)
 
   // @param {string} content - Footnote reference content
   // @param {string} id - Footnote id
@@ -58,18 +58,18 @@ module.exports = (config, options = {}) => {
     // If there are no footnotes for the given page, render nothing
     if (footnotes.length === 0) return ''
 
-    const containerAttrs = attrs({ role: 'doc-endnotes', class: cl() })
-    const titleAttrs = attrs({ id: titleId, class: cl('title') })
-    const listAttrs = attrs({ class: cl('list') })
+    const containerAttrs = attrs({ role: 'doc-endnotes', class: bemClass() })
+    const titleAttrs = attrs({ id: titleId, class: bemClass('title') })
+    const listAttrs = attrs({ class: bemClass('list') })
 
     function renderFootnote(footnote, index) {
       const listItemAttrs = attrs({
         id: `${footnote.id}-note`,
-        class: cl('list-item'),
+        class: bemClass('list-item'),
         role: 'doc-endnote',
       })
       const backLinkAttrs = attrs({
-        class: cl('back-link'),
+        class: bemClass('back-link'),
         href: `#${footnote.id}-ref`,
         'aria-label': backLinkLabel(footnote, index),
         role: 'doc-backlink',
@@ -101,6 +101,6 @@ function attrs(object) {
 }
 
 // Small utility to append element suffix to BEM block base class
-function getClass(block) {
+function getBemClass(block) {
   return element => block + (element ? '__' + element : '')
 }
