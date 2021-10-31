@@ -73,7 +73,7 @@ Note that if the footnote content (2nd argument) is omitted entirely (willingly 
 
 - `classes`: Custom class names for each of the rendered elements, in case you don't use BEM or if you already have utility classes that you want to apply. This option maps each element's name to its custom class string. The following keys can be used in this map:
   - `container`: class name for the footnotes footer that renders the title and all of the footnotes.
-  - `title`: class name for the title that appears above the footnotes section.
+  - `title`: class name for the title that appears above the footnotes list.
   - `ref`: class name for the anchor that takes you to the footnote.
   - `list`: class name for the list that renders the footnotes themselves.
   - `listItem`: class name for the list items.
