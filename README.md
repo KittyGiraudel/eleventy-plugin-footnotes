@@ -13,7 +13,6 @@ This is an [11ty](https://www.11ty.dev) plugin to render [accessible footnotes](
 
 **Notes:**
 
-- It *might* work with Nunjucks but has not been tested. In theory, it should since it uses the universal 11ty methods to add shortcotes.
 - This plugin makes no styling consideration whatsoever. Refer to the [FAQ](#why-are-footnotes-not-rendered) for more information about styling.
 - Check out [my own site’s repository](https://github.com/KittyGiraudel/site) for a real life usage of this plugin.
 
