@@ -25,13 +25,14 @@
     "url": "https://github.com/KittyGiraudel/eleventy-plugin-footnotes/issues"
   },
   "homepage": "https://github.com/KittyGiraudel/eleventy-plugin-footnotes#readme",
-  "devDependencies": {
-    "jest": "^27.0.6"
-  },
   "jest": {
     "testEnvironment": "jsdom"
   },
   "dependencies": {
     "clsx": "^1.1.1"
+  },
+  "devDependencies": {
+    "jest": "^28.1.3",
+    "jest-environment-jsdom": "^28.1.3"
   }
 }
