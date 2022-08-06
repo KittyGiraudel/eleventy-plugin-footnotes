@@ -84,7 +84,6 @@ describe('The `footnotes` shortcode', () => {
     expect(listItem).not.toBeUndefined()
     expect(listItem.getAttribute('class')).toBe('Footnotes__list-item')
     expect(listItem.getAttribute('id')).toBe('foo-id-note')
-    expect(listItem.getAttribute('role')).toBe('doc-endnote')
     expect(listItem.textContent).toBe('foo-footnote ↩')
   })
 
@@ -152,7 +151,7 @@ describe('The `eleventy-plugin-footnotes` plugin', () => {
   })
 
   it('should allow customizing class names for individual elements', () => {
-    const { footnotes, footnoteref } = plugin(config, { 
+    const { footnotes, footnoteref } = plugin(config, {
       baseClass: 'Kitty',
       classes: {
         container: 'footer',
@@ -178,23 +177,23 @@ describe('The `eleventy-plugin-footnotes` plugin', () => {
     expect(containerClasses.contains('Kitty')).toBe(true)
     expect(containerClasses.contains('footer')).toBe(true)
     expect(containerClasses.length).toBe(2)
-    
+
     expect(titleClasses.contains('Kitty__title')).toBe(true)
     expect(titleClasses.contains('title')).toBe(true)
     expect(titleClasses.length).toBe(2)
-    
+
     expect(refClasses.contains('Kitty__ref')).toBe(true)
     expect(refClasses.contains('ref')).toBe(true)
     expect(refClasses.length).toBe(2)
-    
+
     expect(listClasses.contains('Kitty__list')).toBe(true)
     expect(listClasses.contains('list')).toBe(true)
     expect(listClasses.length).toBe(2)
-    
+
     expect(itemClasses.contains('Kitty__list-item')).toBe(true)
     expect(itemClasses.contains('item')).toBe(true)
     expect(itemClasses.length).toBe(2)
-    
+
     expect(backLinkClasses.contains('Kitty__back-link')).toBe(true)
     expect(backLinkClasses.contains('back-link')).toBe(true)
     expect(backLinkClasses.length).toBe(2)

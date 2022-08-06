@@ -10,7 +10,7 @@ const clsx = require('clsx');
 // }
 const FOOTNOTE_MAP = {}
 
-/** 
+/**
  * @param {object} config - 11ty config
  * @param {object} [options] - Plugin options
  * @param {string} [baseClass] - Base CSS class for BEM
@@ -20,7 +20,7 @@ const FOOTNOTE_MAP = {}
  * @param {func} [backLinkLabel] - Footnote back link label generator
 */
 module.exports = (config, options = {}) => {
-  const { 
+  const {
     baseClass = 'Footnotes',
     title = 'Footnotes',
     titleId = 'footnotes-label',
@@ -29,11 +29,11 @@ module.exports = (config, options = {}) => {
   } = options;
   const bemClass = getBemClass(baseClass)
 
-  /** 
+  /**
    * @param {string} content - Footnote reference content
    * @param {string} id - Footnote id
    * @param {string} description - Actual footnote content
-  */ 
+  */
   function footnoteref(content, id, description) {
     const key = this.page.inputPath
     const footnote = { id, description }
@@ -76,7 +76,6 @@ module.exports = (config, options = {}) => {
       const listItemAttrs = attrs({
         id: `${footnote.id}-note`,
         class: clsx(bemClass('list-item'), classes.listItem),
-        role: 'doc-endnote',
       })
       const backLinkAttrs = attrs({
         class: clsx(bemClass('back-link'), classes.backLink),
