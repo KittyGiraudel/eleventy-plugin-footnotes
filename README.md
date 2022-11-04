@@ -45,7 +45,7 @@ The plugin can be somewhat configured. Refer to the [customisation](#customisati
 ## Example
 
 ```html
-Something about {% footnoteref "css-counters" "CSS counters are, in essence, variables maintained by CSS whose values may be incremented by CSS rules to track how many times they’re used." %}CSS counters{% endfootnoteref %} that deserves a footnote explaining
+Something about {% footnoteref "css-counters", "CSS counters are, in essence, variables maintained by CSS whose values may be incremented by CSS rules to track how many times they’re used." %}CSS counters{% endfootnoteref %} that deserves a footnote explaining
 what they are.
 ```
 
