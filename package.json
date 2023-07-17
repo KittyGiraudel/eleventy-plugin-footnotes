@@ -29,7 +29,7 @@
     "testEnvironment": "jsdom"
   },
   "dependencies": {
-    "clsx": "^1.1.1"
+    "clsx": "^2.0.0"
   },
   "devDependencies": {
     "jest": "^29.0.1",
