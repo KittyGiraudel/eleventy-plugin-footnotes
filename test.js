@@ -25,14 +25,13 @@ describe('The `footnoteref` paired shortcode', () => {
     expect(anchor.textContent).toBe(content)
   })
 
-  it('should not render an anchor if description is omitted and no footnote with that id exists', () => {
+  it('should output placeholder when description is omitted and no footnote with that id exists', () => {
     const contextWithoutFootnote = { page: { inputPath: 'tests/footnoteref-orphan' } }
-    const root = document.createElement('div')
-    root.innerHTML = footnoteref.call(contextWithoutFootnote, content, id)
+    const result = footnoteref.call(contextWithoutFootnote, content, id)
 
-    const anchor = root.querySelector('a')
-
-    expect(anchor).toEqual(null)
+    expect(result).toContain('data-footnote-placeholder')
+    expect(result).toContain('data-footnote-id="css-counters"')
+    expect(result).toContain('CSS counters')
   })
 
   it('should render an anchor linking to existing footnote when description is omitted but id matches', () => {
@@ -61,6 +60,50 @@ describe('The `footnoteref` paired shortcode', () => {
     const anchors = root.querySelectorAll('a')
     expect(anchors[0].getAttribute('data-footnote-index')).toBe('1')
     expect(anchors[1].getAttribute('data-footnote-index')).toBe('1')
+  })
+
+  it('should support definition appearing after ref (placeholders + transform)', () => {
+    const ctx = { page: { inputPath: 'tests/footnoteref-def-second' } }
+    const { footnoteref, footnoteTransform, footnotes } = plugin(config)
+    const root = document.createElement('div')
+    const aliceHtml = footnoteref.call(ctx, 'Alice', 'late-def')
+    const bobHtml = footnoteref.call(ctx, 'Bob', 'late-def', 'Definition comes second.')
+    const footnotesHtml = footnotes.call(ctx)
+
+    // Before transform: Alice is placeholder span, Bob is anchor
+    expect(aliceHtml).toContain('data-footnote-placeholder')
+    expect(aliceHtml).toContain('data-footnote-id="late-def"')
+    expect(bobHtml).toContain('id="late-def-ref-2"')
+
+    // Simulate full page and run transform
+    const fullHtml = `<div>${aliceHtml}${bobHtml}</div>${footnotesHtml}`
+    const transformed = footnoteTransform.call(ctx, fullHtml)
+
+    const transformedRoot = document.createElement('div')
+    transformedRoot.innerHTML = transformed
+    const anchors = transformedRoot.querySelectorAll('a[href="#late-def-note"]')
+    expect(anchors.length).toBe(2)
+    expect(anchors[0].getAttribute('id')).toBe('late-def-ref')
+    expect(anchors[0].textContent).toBe('Alice')
+    expect(anchors[1].getAttribute('id')).toBe('late-def-ref-2')
+    expect(anchors[1].textContent).toBe('Bob')
+    expect(anchors[0].getAttribute('data-footnote-index')).toBe('1')
+    expect(anchors[1].getAttribute('data-footnote-index')).toBe('1')
+  })
+
+  it('should warn when placeholder never gets a definition', () => {
+    const ctx = { page: { inputPath: 'tests/footnoteref-orphan-warn' } }
+    const { footnoteref, footnoteTransform } = plugin(config)
+    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
+    const placeholder = footnoteref.call(ctx, 'Orphan', 'never-defined')
+    const fullHtml = `<div>${placeholder}</div>`
+
+    footnoteTransform.call(ctx, fullHtml)
+
+    expect(spy).toHaveBeenCalledWith(
+      expect.stringMatching(/never-defined.*no given description|no given description.*never-defined/)
+    )
+    spy.mockRestore()
   })
 })
 
