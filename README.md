@@ -60,10 +60,14 @@ what they are.
 
 If the footnote content (2nd argument) is omitted: when another footnote with the same `id` already exists on the page, the reference is rendered and links to that existing footnote (so you can reference the same footnote multiple times). When no footnote with that `id` exists yet, the reference is not rendered and a warning is logged.
 
-To reference the same footnote multiple times (e.g. one explanation for several terms), define the footnote on the first reference and omit the content on later references:
+You can reference the same footnote multiple times in either order:
 
 ```html
 In this article, {% footnoteref "pseudonyms", "All names used here are pseudonyms." %}Alice{% endfootnoteref %} and {% footnoteref "pseudonyms" %}Bob{% endfootnoteref %} are interviewees.
+```
+
+```html
+In this article, {% footnoteref "pseudonyms" %}Alice{% endfootnoteref %} and {% footnoteref "pseudonyms", "All names used here are pseudonyms." %}Bob{% endfootnoteref %} are interviewees.
 ```
 
 ## Customisation
