@@ -19,18 +19,48 @@ describe('The `footnoteref` paired shortcode', () => {
     expect(anchor).not.toEqual(null)
     expect(anchor.getAttribute('href')).toBe(`#${id}-note`)
     expect(anchor.getAttribute('id')).toBe(`${id}-ref`)
+    expect(anchor.getAttribute('data-footnote-index')).toBe('1')
     expect(anchor.getAttribute('role')).toBe('doc-noteref')
     expect(anchor.getAttribute('aria-describedby')).toBe('footnotes-label')
     expect(anchor.textContent).toBe(content)
   })
 
-  it('should not render an anchor if description is omitted', () => {
+  it('should not render an anchor if description is omitted and no footnote with that id exists', () => {
+    const contextWithoutFootnote = { page: { inputPath: 'tests/footnoteref-orphan' } }
     const root = document.createElement('div')
-    root.innerHTML = footnoteref.call(context, content, id)
+    root.innerHTML = footnoteref.call(contextWithoutFootnote, content, id)
 
     const anchor = root.querySelector('a')
 
     expect(anchor).toEqual(null)
+  })
+
+  it('should render an anchor linking to existing footnote when description is omitted but id matches', () => {
+    const root = document.createElement('div')
+    // First ref with description registers the footnote
+    root.innerHTML =
+      footnoteref.call(context, 'Alice', 'pseudonyms', 'All names in this article are pseudonyms.') +
+      footnoteref.call(context, 'Bob', 'pseudonyms')
+
+    const anchors = root.querySelectorAll('a')
+    expect(anchors.length).toBe(2)
+    expect(anchors[0].getAttribute('href')).toBe('#pseudonyms-note')
+    expect(anchors[0].getAttribute('id')).toBe('pseudonyms-ref')
+    expect(anchors[1].getAttribute('href')).toBe('#pseudonyms-note')
+    expect(anchors[1].getAttribute('id')).toBe('pseudonyms-ref-2')
+    expect(anchors[1].textContent).toBe('Bob')
+  })
+
+  it('should output same data-footnote-index for all refs to the same footnote', () => {
+    const ctx = { page: { inputPath: 'tests/footnoteref-index' } }
+    const root = document.createElement('div')
+    root.innerHTML =
+      footnoteref.call(ctx, 'Alice', 'shared', 'One footnote for both.') +
+      footnoteref.call(ctx, 'Bob', 'shared')
+
+    const anchors = root.querySelectorAll('a')
+    expect(anchors[0].getAttribute('data-footnote-index')).toBe('1')
+    expect(anchors[1].getAttribute('data-footnote-index')).toBe('1')
   })
 })
 

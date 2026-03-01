@@ -1,11 +1,11 @@
 const clsx = require('clsx');
 
 // Internal map storing the footnotes for every page. Keys are page file paths
-// mapped to objects holding footnotes.
+// mapped to objects holding footnotes. Each footnote has refCount for unique ref ids.
 // E.g.
 // {
 //    '_posts/foobar.md': {
-//      'css-counters': { id: 'css-counters', description: '…' }
+//      'css-counters': { id: 'css-counters', description: '…', refCount: 2 }
 //    }
 // }
 const FOOTNOTE_MAP = {}
@@ -36,9 +36,30 @@ module.exports = (config, options = {}) => {
   */
   function footnoteref(content, id, description) {
     const key = this.page.inputPath
-    const footnote = { id, description }
+    FOOTNOTE_MAP[key] = FOOTNOTE_MAP[key] || {}
 
+    // No description: reuse existing footnote with this id if present
     if (!description) {
+      const existing = FOOTNOTE_MAP[key][id]
+
+      if (existing) {
+        existing.refCount = (existing.refCount || 1) + 1
+
+        const refId =
+          existing.refCount === 1
+            ? `${id}-ref`
+            : `${id}-ref-${existing.refCount}`
+
+        return `<a ${attrs({
+          class: clsx(`${baseClass}__ref`, classes.ref),
+          href: `#${id}-note`,
+          id: refId,
+          'data-footnote-index': existing.index,
+          'aria-describedby': titleId,
+          role: 'doc-noteref',
+        })}>${content}</a>`
+      }
+
       console.log(
         `[eleventy-plugin-footnotes] Warning: Footnote reference with id ‘${id}’ has no given description (missing or falsy second argument); footnote omitted entirely.\n`
       )
@@ -46,8 +67,10 @@ module.exports = (config, options = {}) => {
       return content
     }
 
-    // Register the footnote in the map
-    FOOTNOTE_MAP[key] = FOOTNOTE_MAP[key] || {}
+    // Register the footnote in the map (first ref)
+    // Assign index so all refs to this footnote show the same number (CSS counters would increment per-ref)
+    const index = Object.keys(FOOTNOTE_MAP[key]).length + 1
+    const footnote = { id, description, refCount: 1, index }
     FOOTNOTE_MAP[key][id] = footnote
 
     // Return an anchor tag with all the necessary attributes
@@ -55,6 +78,7 @@ module.exports = (config, options = {}) => {
       class: clsx(`${baseClass}__ref`, classes.ref),
       href: `#${id}-note`,
       id: `${id}-ref`,
+      'data-footnote-index': index,
       'aria-describedby': titleId,
       role: 'doc-noteref',
     })}>${content}</a>`

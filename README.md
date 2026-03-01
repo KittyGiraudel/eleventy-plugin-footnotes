@@ -58,7 +58,13 @@ Something about {% footnoteref "css-counters" css_counters_footnote %}CSS counte
 what they are.
 ```
 
-Note that if the footnote content (2nd argument) is omitted entirely (willingly or by mistake), the footnote reference will not be rendered as an anchor at all since there is nothing to link to.
+If the footnote content (2nd argument) is omitted: when another footnote with the same `id` already exists on the page, the reference is rendered and links to that existing footnote (so you can reference the same footnote multiple times). When no footnote with that `id` exists yet, the reference is not rendered and a warning is logged.
+
+To reference the same footnote multiple times (e.g. one explanation for several terms), define the footnote on the first reference and omit the content on later references:
+
+```html
+In this article, {% footnoteref "pseudonyms", "All names used here are pseudonyms." %}Alice{% endfootnoteref %} and {% footnoteref "pseudonyms" %}Bob{% endfootnoteref %} are interviewees.
+```
 
 ## Customisation
 
@@ -110,6 +116,8 @@ Additionally, a log like this one will be output during compilation:
 [eleventy-plugin-footnotes] Warning: Footnote reference with id ‘css-counters’ has no given description (missing or falsy second argument); footnote omitted entirely.
 ```
 
+Note that if a reference does not provide footnote content but uses an `id` that was already defined by another footnote, it will properly render a reference to that footnote. This allow for multiple references pointing to the same footnote. See [Multiple references to the same footnotes](#multiple-references-to-the-same footnote) for styling considerations.
+
 ### Why are numbers not displayed?
 
 Unlike other footnoting systems, this one uses properly labeled anchors as references instead of numbers (e.g. `[1]`). This is better for accessibility since links can be tabbed through or listed devoid of their surrounding context, and therefore should be self-explanatory.
@@ -124,5 +132,19 @@ body { counter-reset: footnotes }
   content: '[' counter(footnotes) ']'
 }
 ```
+
+### Multiple references to the same footnote
+
+Using CSS counters means it is not possible to have multiple references to the same footnote, because the CSS counter will naturally increment with each reference — regardless of where it points to.
+
+To work around the problem, the library also adds a `data-footnote-index` attribute to each footnote reference (so multiple references to the same footnote show the same number). Use a pseudo-element to render it:
+
+```css
+[role="doc-noteref"]::after {
+  content: '[' attr(data-footnote-index) ']'
+}
+```
+
+---
 
 Refer to [this article on accessible footnotes](https://www.sitepoint.com/accessible-footnotes-css/) or [this stylesheet](https://github.com/KittyGiraudel/site/tree/main/assets/css/components/footnotes.css) for a more comprehensive styling solution.
